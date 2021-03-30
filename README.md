@@ -56,4 +56,10 @@ Step :
    (venv) $ flask run --port=5050
    ```
 8. Done.
+
+## Dependencies
+flask
+pytesseract
+scikit-image
+opencv-python
    
