@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, abort
+from flask import request, abort, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 
@@ -21,9 +21,11 @@ def upload_file():
          if file_ext not in app.config['UPLOAD_EXTENSIONS']:
             abort(400)
 
-         f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+         f.save(os.path.join(app.config['UPLOAD_PATH'], secure_filename(filename)))
+      return 'file uploaded successfully', 201
 
-         
-      return 'file uploaded successfully'
-
+@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    uploads = os.path.join(app.config['ROOT_PATH'], app.config['UPLOAD_PATH'])
+    return send_from_directory(directory=uploads, filename=secure_filename(filename))
 
