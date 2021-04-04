@@ -34,7 +34,7 @@ def upload_file(filter):
             # Write into a file in UPLOAD_PATH path
             f.save(os.path.join(app.config['UPLOAD_PATH'], secure_filename(ts + filename)))
             # Convert to Black White
-            text = Utils.convert_to_bw(filename,filter)
+            text = Utils.convert_to_bw(ts + filename,filter)
             # Cast to Data
             data = Data(root_url + 'uploads/' + ts + filename, text)
          return response.ok(data.toJSON(), 'Success')

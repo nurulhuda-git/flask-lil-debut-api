@@ -2,6 +2,7 @@ from app import app
 import pytesseract
 import cv2
 from skimage.filters import threshold_local
+from skimage.transform import rescale, resize
 from PIL import Image
 import numpy
 import os
@@ -17,6 +18,7 @@ def convert_to_bw(filename, filter):
 
    if filter == 'black_and_white':
       img = cv2.imread(src_filename)
+      img = cv2.resize(img,None,fx=0.5,fy=0.5)
 
       result = bw_scanner(img)
       output = Image.fromarray(result)
@@ -24,5 +26,7 @@ def convert_to_bw(filename, filter):
  
       text = pytesseract.image_to_string(dst_filename)
    else:
-      text = pytesseract.image_to_string(src_filename)
+      img = cv2.imread(src_filename)
+      img = cv2.resize(img,None,fx=0.5,fy=0.5)
+      text = pytesseract.image_to_string(img)
    return text
